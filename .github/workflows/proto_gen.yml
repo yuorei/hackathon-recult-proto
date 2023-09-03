@@ -17,10 +17,10 @@ jobs:
           sudo apt-get install -y protobuf-compiler
           sudo apt  install -y golang-go
           npm install -g protoc-gen-ts
-          ./mkdir_language.sh
 
       - name: Generate Go Code
         run: |
+          mkdir go
           go mod init grpc/generated
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
           go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
@@ -29,16 +29,25 @@ jobs:
           protoc -I=proto --go_out=go proto/*.proto
 
       - name: Generate Ruby Code
-        run: protoc --ruby_out=./ruby/ proto/*.proto
+        run: |
+          mkdir ruby
+          protoc --ruby_out=./ruby/ proto/*.proto
 
       - name: Generate TypeScript Code
-        run: protoc -I=proto --ts_out=ts proto/*.proto
+        run: |
+          mkdir ts
+          protoc -I=proto --ts_out=ts proto/*.proto
 
       - name: Generate Kotlin Code
-        run: protoc --kotlin_out=./kotlin/ proto/*.proto
+        run: |
+          DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+          java -jar $DIR/protoc-gen-grpc-kotlin-SOME_VERSION-jdk8.jar "$@
+          protoc --kotlin_out=./kotlin/ proto/*.proto
 
       - name: Generate Python Code
-        run: protoc --python_out=./python/ proto/*.proto
+        run: |
+          mkdir python
+          protoc --python_out=./python/ proto/*.proto
 
       - name: Commit and Push Generated Code
         run: |
