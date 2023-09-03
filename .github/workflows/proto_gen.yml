@@ -50,6 +50,7 @@ jobs:
 
       - name: Commit and Push Generated Code
         run: |
+          ls -la
           git config user.name "gRPC Bot"
           git pull
           git add -A
