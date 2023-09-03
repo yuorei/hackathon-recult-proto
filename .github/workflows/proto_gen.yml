@@ -41,7 +41,7 @@ jobs:
         run: |
           mkdir kotlin
           wget https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-kotlin/0.1.5/protoc-gen-grpc-kotlin-0.1.5-linux-x86_64.exe -O /usr/bin/protoc-gen-grpc-kotlin
-          chmod 0755 /usr/bin/protoc-gen-grpc-kotlin
+          sudo chmod 0755 /usr/bin/protoc-gen-grpc-kotlin
           protoc --kotlin_out=./kotlin/ proto/*.proto
 
       - name: Generate Python Code
