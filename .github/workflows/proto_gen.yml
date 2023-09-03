@@ -16,17 +16,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y protobuf-compiler
           sudo apt  install -y golang-go
-          export GO_PATH=~/go
-          go mod init grpc/generated
-          go get -u google.golang.org/grpc
-          go get -u google.golang.org/grpc/cmd/protoc-gen-go-grpc
-          export PATH="$PATH:$(go env GOPATH)/bin"
-          protoc-gen-go --version
           npm install -g protoc-gen-ts
           ./mkdir_language.sh
 
       - name: Generate Go Code
-        run: protoc -I=proto --go_out=go proto/*.proto
+        run: |
+          go mod init grpc/generated
+          go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+          go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+          export PATH="$PATH:$(go env GOPATH)/bin"
+          protoc-gen-go --version
+          protoc -I=proto --go_out=go proto/*.proto
 
       - name: Generate Ruby Code
         run: protoc --ruby_out=./ruby/ proto/*.proto
