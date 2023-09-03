@@ -50,7 +50,7 @@ jobs:
 
       - name: Commit and Push Generated Code
         run: |
-          [[ ! $(git diff --exit-code .) ]] && echo "Nothing to commit." && exit 0
+          [[ ! $(git diff --exit-code ) ]] && echo "Nothing to commit." && exit 0
           git config user.name "gRPC Bot"
           git pull
           git add -A
