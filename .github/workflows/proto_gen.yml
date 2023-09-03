@@ -1,0 +1,43 @@
+name: Generate gRPC code
+on:
+  push:
+    branches: main
+    paths:
+      - 'proto/**'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install Protobuf Compiler
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y protobuf-compiler
+          npm install -g protoc-gen-ts
+          ./mkdir_language.sh
+
+      - name: Generate Go Code
+        run: protoc -I=./proto --go_out=./go ./proto/*.proto
+
+      - name: Generate Ruby Code
+        run: protoc --ruby_out=./ruby/ proto/*.proto
+
+      - name: Generate TypeScript Code
+        run: protoc -I=proto --ts_out=ts proto/*.proto
+
+      - name: Generate Kotlin Code
+        run: protoc --kotlin_out=./kotlin/ proto/*.proto
+
+      - name: Generate Python Code
+        run: protoc --python_out=./python/ proto/*.proto
+
+      - name: Commit and Push Generated Code
+        run: |
+          [[ ! $(git diff --exit-code .) ]] && echo "Nothing to commit." && exit 0
+          git config user.name "gRPC Bot"
+          git pull
+          git add -A
+          git commit -m "chore: regenerate grpc code"
+          git push
