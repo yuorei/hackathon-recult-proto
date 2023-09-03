@@ -19,7 +19,7 @@ jobs:
           ./mkdir_language.sh
 
       - name: Generate Go Code
-        run: protoc -I=./proto --go_out=./go ./proto/*.proto
+        run: protoc -I=proto --go_out=go proto/*.proto
 
       - name: Generate Ruby Code
         run: protoc --ruby_out=./ruby/ proto/*.proto
