@@ -52,6 +52,7 @@ jobs:
         run: |
           ls -la
           git config user.name "gRPC Bot"
+          git config user.email "grpc@example.com"
           git pull
           git add -A
           git commit -m "chore: regenerate grpc code"
