@@ -15,7 +15,6 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y protobuf-compiler
-          sudo apt  install -y golang-go
           npm install -g protoc-gen-ts
 
       - name: Generate Go Code
@@ -40,8 +39,9 @@ jobs:
 
       - name: Generate Kotlin Code
         run: |
-          DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-          java -jar $DIR/protoc-gen-grpc-kotlin-SOME_VERSION-jdk8.jar "$@
+          mkdir kotlin
+          wget https://repo1.maven.org/maven2/io/grpc/protoc-gen-grpc-kotlin/0.1.5/protoc-gen-grpc-kotlin-0.1.5-linux-x86_64.exe -O /usr/bin/protoc-gen-grpc-kotlin
+          chmod 0755 /usr/bin/protoc-gen-grpc-kotlin
           protoc --kotlin_out=./kotlin/ proto/*.proto
 
       - name: Generate Python Code
