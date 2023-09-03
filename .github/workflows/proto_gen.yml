@@ -16,6 +16,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y protobuf-compiler
           sudo apt  install -y golang-go
+          export GO_PATH=~/go
           export PATH="$PATH:$(go env GOPATH)/bin"
           protoc-gen-go --version
           go mod init grpc/generated
