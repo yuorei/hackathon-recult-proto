@@ -19,7 +19,7 @@ jobs:
 
       - name: Generate Go Code
         run: |
-          mkdir go
+          mkdir -p go
           go mod init grpc/generated
           go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
           go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
@@ -29,23 +29,23 @@ jobs:
 
       - name: Generate Ruby Code
         run: |
-          mkdir ruby
+          mkdir -p ruby
           protoc --ruby_out=./ruby/ proto/*.proto
 
       - name: Generate TypeScript Code
         run: |
-          mkdir ts
+          mkdir -p ts
           protoc -I=proto --ts_out=ts proto/*.proto
 
       # TODO: Kotlin support
       # - name: Generate Kotlin Code
       #   run: |
-      #     mkdir kotlin
+      #     mkdir -p kotlin
       #     protoc --kotlin_out=./kotlin/ proto/*.proto
 
       - name: Generate Python Code
         run: |
-          mkdir python
+          mkdir -p python
           protoc --python_out=./python/ proto/*.proto
 
       - name: Commit and Push Generated Code
