@@ -27,6 +27,7 @@ jobs:
           protoc-gen-go --version
           protoc -I=proto --go_out=go --go-grpc_out=go proto/*.proto
           go mod tidy
+          rm go.mod go.sum
 
       - name: Generate Ruby Code
         run: |
