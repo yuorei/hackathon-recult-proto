@@ -32,7 +32,8 @@ jobs:
       - name: Generate Ruby Code
         run: |
           mkdir -p ruby
-          protoc --ruby_out=./ruby/ proto/*.proto
+          gem install grpc grpc-tools
+          grpc_tools_ruby_protoc -I proto --ruby_out=ruby --grpc_out=ruby proto/*.proto
 
       - name: Generate TypeScript Code
         run: |
